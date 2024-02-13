@@ -10,12 +10,11 @@ import dj_database_url
 # Database Configuration
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'outside_server',  # Database name
-        'USER': 'outside_server_user',  # Username
-        'PASSWORD': 'IqUHW8eBRUMpE4nX1wXrLF6f02xeS8Lu',  # Password
-        'HOST': 'dpg-cn51knfsc6pc73e88od0-a.oregon-postgres.render.com',  # Hostname
-        'PORT': '5432',  # Port
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
