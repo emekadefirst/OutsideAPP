@@ -6,6 +6,7 @@ class Event(models.Model):
     name = models.CharField(max_length=350)
     date = models.DateTimeField()
     venue = models.CharField(max_length=450)
+    banner = models.ImageField()
     host = models.ForeignKey(Host, on_delete=models.CASCADE)
 
     def __str__(self):
