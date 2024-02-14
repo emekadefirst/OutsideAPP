@@ -6,8 +6,8 @@ class BankDetail(models.Model):
     id = models.AutoField(primary_key=True)
     bank = models.CharField(max_length=50, default="Paystack")
     acc_number = models.IntegerField()
-    acc_name = models.CharField(max_length=100, mull=True)
-    email = models.CharField(max_length=150, mull=True)
+    acc_name = models.CharField(max_length=100)
+    email = models.CharField(max_length=150)
     
     def __str__(self):
         return self.acc_name

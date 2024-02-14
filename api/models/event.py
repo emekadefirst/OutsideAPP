@@ -1,5 +1,5 @@
 from django.db import models
-from host import Host
+from .host import Host
 
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
