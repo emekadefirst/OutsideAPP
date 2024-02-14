@@ -9,7 +9,7 @@ class EventAdmin(admin.ModelAdmin):
     inlines = [
         TicketInline,
     ]
-    list_display = ('name', 'date', 'venue', 'host')
+    list_display = ('id', 'name', 'date', 'venue', 'host')
     search_fields = ('name', 'venue')
     list_filter = ('host',)
 
@@ -18,12 +18,12 @@ class TicketTypeAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class HostAdmin(admin.ModelAdmin):
-    list_display = ('user', 'event_count',)
+    list_display = ('id', 'user', 'event_count', 'first_name', 'middle_name', 'last_name', 'address')
     search_fields = ('user__username',)
     list_filter = ('event_count',)
 
 class BankDetailAdmin(admin.ModelAdmin):
-    list_display = ('acc_name', 'bank', 'acc_number', 'email',)
+    list_display = ('id', 'acc_name', 'bank', 'acc_number', 'email',)
     search_fields = ('acc_name', 'bank', 'email',)
 
 admin.site.register(Event, EventAdmin)

@@ -14,7 +14,13 @@ class BankDetail(models.Model):
     
 
 class Host(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=150, default="None")
+    middle_name = models.CharField(max_length=150, default="None")
+    last_name = models.CharField(max_length=150, default="None")
+    phone_number = models.IntegerField(default=0)
+    address = models.CharField(max_length=150, default="None")
     event_count = models.IntegerField(default=0)
     bank_details = models.OneToOneField(BankDetail, on_delete=models.CASCADE)  
 
