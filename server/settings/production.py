@@ -9,14 +9,15 @@ import dj_database_url
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get("ENGINE"),
-        'NAME': os.environ.get("NAME"),  # Database name
-        'USER': os.environ.get("USER"),  # Database user
+        'ENGINE': 'django.db.backends.postgresql', # Corrected typo here
+        'NAME': os.environ.get("NAME"),      # Database name
+        'USER': os.environ.get("USER"),      # Database user
         'PASSWORD': os.environ.get("PASSWORD"),  # Database password
-        'HOST': os.environ.get("HOST"),  # Database host
-        'PORT': os.environ.get("PORT"),  # Database port (leave empty for default)
+        'HOST': os.environ.get("HOST"),      # Database host
+        'PORT': os.environ.get("PORT"),      # Database port (leave empty for default)
     }
 }
+
 
 
 
