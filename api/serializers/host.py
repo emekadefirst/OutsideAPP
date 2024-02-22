@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from models.host import Host, BankDetail
+from api.models.host import Host, BankDetail
 
 class HostSerializer(serializers.ModelSerializer):
     class Meta:
