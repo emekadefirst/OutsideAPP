@@ -5,8 +5,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models.event import Event, Ticket, TicketType
 from .models.host import BankDetail, Host
-from .serializers.event import EventSerializer
+from .serializers.event import EventSerializer, TicketTypeSerializer
 from .serializers.user import UserSerializer, UserLoginSerializer
+from .serializers.host import HostSerializer, BankDetailSerializer
 from django.db.models import Q
 from rest_framework import status
 from django.contrib.auth.models import User
@@ -89,20 +90,59 @@ class LoginUser(APIView):
             return Response({'message': 'Login successful', 'success': True, 'token': token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
         
 """Create Host"""
-class Host(APIView):
-    pass
+class HostView(APIView):
+    pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        return Host.objects.all()
+
+    def get(self, request):
+        hosts = self.get_queryset()
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(hosts, request)
+
+        if page is not None:
+            serializer = HostSerializer(page, many=True)
+            return paginator.get_paginated_response(serializer.data)
+
+        serializer = HostSerializer(hosts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def post(self, request):
+        serializer = HostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 """Create Event"""
 class CreateEvent(APIView):
-    pass
+    def post(self, request):
+        serializer = EventSerializer
+        if serializer.is_valid:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 """Create Create Ticket-Type"""
 class CreateTicketType(APIView):
-    pass
-
+    def post(self, request):
+        serializer = TicketTypeSerializer
+        if serializer.is_valid:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 """Create Host Account Detail"""
 class HostAccountDetail(APIView):
-    pass
+    def post(self, request):
+        serializer = BankDetailSerializer
+        if serializer.is_valid:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 """Buy Ticket"""
 class BuyTicket(APIView):
