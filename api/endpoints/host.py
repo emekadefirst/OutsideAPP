@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from api.models.host import Host
@@ -30,6 +30,8 @@ class HostView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request):
+        permission_classes = [IsAuthenticated]
+        authentication_classes = [TokenAuthentication]
         serializer = HostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -39,18 +41,40 @@ class HostView(APIView):
 
 """Create Create Ticket-Type"""
 class CreateTicketType(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     def post(self, request):
-        serializer = TicketTypeSerializer
-        if serializer.is_valid:
+        user = request.user  
+        try:
+            host = Host.objects.get(user=user)  # Retrieve the host associated with the user
+        except Host.DoesNotExist:
+            return Response({"error": "Only hosts can create ticket types"}, status=status.HTTP_403_FORBIDDEN)
+        
+        serializer = TicketTypeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['host'] = host
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
-"""Create Host Account Detail"""
+
+"""Host Bank Detail"""
 class HostAccountDetail(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    
     def post(self, request):
-        serializer = BankDetailSerializer
-        if serializer.is_valid:
+        user = request.user  
+        try:
+            host = Host.objects.get(user=user)  # Retrieve the host associated with the user
+        except Host.DoesNotExist:
+            return Response({"error": "Only hosts can create account details"}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = BankDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            # If the user is a host, associate the bank detail with the host and save
+            serializer.validated_data['host'] = host
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
