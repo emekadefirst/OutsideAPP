@@ -1,15 +1,16 @@
 from django.urls import path
-from .endpoints.event import EventView, CreateEvent
+from .endpoints.event import EventView, CreateEvent, SearchEventView
 from .endpoints.auth import RegisterUser, LoginUser, BuyTicket
-from .endpoints.host import Host, CreateTicketType, HostAccountDetail
-# SearchEventView
+from .endpoints.host import HostView, CreateTicketType, HostAccountDetail
+from api.endpoints.checkout import Checkout
 
 
 urlpatterns = [
+    path('host', HostView.as_view(), name='host'),
     path('event-list', EventView.as_view(), name='listview'),
-    # path('search', SearchEventView.as_view(), name='search'),
+    path('search', SearchEventView.as_view(), name='search'),
     path('login', LoginUser.as_view(), name='login'),
-    # path('host', Host.as_view(), name='host'),
+    path('pay', Checkout.as_view(), name='pay'),
     path('ce', CreateEvent.as_view(), name='create-event'),
     path('ctt', CreateTicketType.as_view(), name='create-ticket-type'),
     path('had', HostAccountDetail.as_view(), name='host-account-detail'),
