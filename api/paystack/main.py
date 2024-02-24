@@ -24,7 +24,7 @@ class Paystack:
         
         self.headers = {"Authorization": "Bearer %s" % self.secret_key}
         
-    def initate_payment(self, email, amount):
+    def initiate_payment(self, email, amount):
         payload = {"email": email, "amount":amount}
         
         response = requests.post(

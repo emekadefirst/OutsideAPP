@@ -16,10 +16,10 @@ class Payment(models.Model):
         default=TRANSACTION_STATUS.PENDING,
     )
     ref =  models.CharField(max_length=100)
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now_add=True)  # Assuming 'time' field represents creation time
     
     def __str__(self):
         return f"{self.user.username}'s Transaction"
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ["-time"]  # Ordering by the 'time' field in descending order

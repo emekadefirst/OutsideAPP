@@ -79,4 +79,13 @@ class HostAccountDetail(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+{
+    "email": "adams@mail.com",
+    "username": "adam12",
+    "password": "asddffg"
+}
 
+{
+    "email": "adams@mail.com",
+    "password": "asddffg"
+}
