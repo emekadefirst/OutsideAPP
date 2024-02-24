@@ -21,7 +21,8 @@ secretkey = os.environ.get("PAYSTACK_PIR_KEY")
 
 
 class Checkout(APIView):
-    
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     def post(self, request):
         serializer = PurchaseSerilizer(data=request.data)
         if serializer.is_valid():
