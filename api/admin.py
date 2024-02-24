@@ -1,9 +1,13 @@
 from django.contrib import admin
 from .models.event import Event, TicketType, Ticket
 from .models.host import Host, BankDetail
+from .models.transaction import Payment
 
 class TicketInline(admin.TabularInline):
     model = Ticket
+    
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'description', 'amount', 'status', 'time', 'ref')
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [
@@ -30,3 +34,4 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(TicketType, TicketTypeAdmin)
 admin.site.register(Host, HostAdmin)
 admin.site.register(BankDetail, BankDetailAdmin)
+admin.site.register(Payment, PaymentAdmin)
