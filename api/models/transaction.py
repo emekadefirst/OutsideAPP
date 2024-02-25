@@ -10,6 +10,7 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, name=None)
     description = models.TextField(null=True, blank=True)
     amount = models.FloatField(default="0.00")
+    quantity = models.IntegerField(default=0)
     status = models.CharField(
         max_length=50,
         choices=TRANSACTION_STATUS.choices,

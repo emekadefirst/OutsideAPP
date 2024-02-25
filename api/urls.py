@@ -2,7 +2,7 @@ from django.urls import path
 from .endpoints.event import EventView, CreateEvent, SearchEventView
 from .endpoints.auth import RegisterUser, LoginUser, BuyTicket
 from .endpoints.host import HostView, CreateTicketType, HostAccountDetail
-from api.endpoints.checkout import Checkout
+from .paystack.main import Checkout
 
 
 urlpatterns = [
@@ -27,4 +27,16 @@ urlpatterns = [
 {
     "email": "test@user.com",
     "password": "testpass"
+}
+
+{
+    "email": "test@user.com",
+    "amount": "200",
+    "quantity": "2"
+}
+
+{
+    "email": "test@user.com",
+    "amount": 200,
+    "quantity": 2
 }
