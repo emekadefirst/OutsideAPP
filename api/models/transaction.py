@@ -8,6 +8,7 @@ class Payment(models.Model):
         FAILED = "FAILED", "Failed"
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, name=None)
+    email = models.EmailField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     amount = models.FloatField(default="0.00")
     quantity = models.IntegerField(default=0)

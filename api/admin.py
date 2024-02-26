@@ -7,7 +7,7 @@ class TicketInline(admin.TabularInline):
     model = Ticket
     
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'description', 'amount', 'status', 'time', 'ref')
+    list_display = ('id', 'user', 'email', 'description', 'amount', 'status', 'time', 'ref')
 
 class EventAdmin(admin.ModelAdmin):
     inlines = [
