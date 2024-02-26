@@ -41,7 +41,3 @@ class LoginUser(APIView):
             token, created = Token.objects.get_or_create(user=user)
             serializer = UserSerializer()
             return Response({'message': 'Login successful', 'success': True, 'token': token.key, 'user': serializer.data}, status=status.HTTP_200_OK)
-        
-"""Buy Ticket"""
-class BuyTicket(APIView):
-    pass

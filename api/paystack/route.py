@@ -11,8 +11,8 @@ from api.paystack.main import Paystack, secret_key  # Import Paystack class from
 from django.http import Http404
 
 class Checkout(APIView):
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+    # authentication_classes = [TokenAuthentication]
     def post(self, request):
         serializer = PurchaseSerializer(data=request.data)
         if serializer.is_valid():

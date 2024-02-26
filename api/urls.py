@@ -1,6 +1,6 @@
 from django.urls import path
 from .endpoints.event import EventView, CreateEvent, SearchEventView
-from .endpoints.auth import RegisterUser, LoginUser, BuyTicket
+from .endpoints.auth import RegisterUser, LoginUser
 from .endpoints.host import HostView, CreateTicketType, HostAccountDetail
 from .paystack.route import Checkout, AuthUrl
 
@@ -15,7 +15,6 @@ urlpatterns = [
     path('ce', CreateEvent.as_view(), name='create-event'),
     path('ctt', CreateTicketType.as_view(), name='create-ticket-type'),
     path('had', HostAccountDetail.as_view(), name='host-account-detail'),
-    path('bt', BuyTicket.as_view(), name='buy-ticket'),
     path('register', RegisterUser.as_view(), name='register')
 ]
 
