@@ -12,11 +12,7 @@ class Payment(models.Model):
     description = models.TextField(null=True, blank=True)
     amount = models.FloatField(default="0.00")
     quantity = models.IntegerField(default=0)
-    status = models.CharField(
-        max_length=50,
-        choices=TRANSACTION_STATUS.choices,
-        default=TRANSACTION_STATUS.PENDING,
-    )
+    status = models.CharField(max_length=50, choices=TRANSACTION_STATUS.choices, default=TRANSACTION_STATUS.PENDING)
     ref =  models.CharField(max_length=100)
     time = models.DateTimeField(auto_now_add=True)  # Assuming 'time' field represents creation time
     
