@@ -31,5 +31,5 @@ urlpatterns = [
 
 {
     "email": "emekadefirst@gmail.com",
-    "amount": 5000
+    "amount": 800
 }

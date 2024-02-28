@@ -34,7 +34,8 @@ class Paystack:
             print("Error: Reference not found")
             return None
         
-        url = f'https://api.paystack.co/transaction/verify/:{self.ref_id}'
+        url = f'https://api.paystack.co/transaction/verify/{self.ref_id}'
+
         headers = {
             'Authorization': f'Bearer {self.secret_key}'
         }

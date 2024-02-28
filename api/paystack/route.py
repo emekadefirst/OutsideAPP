@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from api.serializers.purchase import PurchaseSerializer
 from api.models.transaction import Payment
-from api.paystack.main import Paystack, secret_key  # Import Paystack class from main.py
+from api.paystack.main import Paystack, secret_key 
 from django.http import Http404
 from django.utils import timezone
 
@@ -21,30 +21,28 @@ class Checkout(APIView):
                 user = User.objects.get(id=user_id)
             except User.DoesNotExist:
                 raise Http404("User does not exist")
-            payment = Payment.objects.create(user=user, email=email, amount=amount, status=Payment.TRANSACTION_STATUS.PENDING)
-            payment.save()
             
-            paystack = Paystack(email, amount, secret_key)
-            response = paystack.initialize_transaction()
-            if response.get("status"):
-                auth_url = response["data"]["authorization_url"]
-                ref_id = response["data"]["reference"]
-                status = paystack.payment_status()  # Assuming this returns 'success' or 'failed'
-                if status == 'success':
-                    payment.status = Payment.TRANSACTION_STATUS.SUCCESSFUL
-                    payment.save()
-                else:
-                    payment.status = Payment.TRANSACTION_STATUS.FAILED
-                    payment.save()
-                return Response({"authorization_url": auth_url, "reference": ref_id},  status=200)
-            else:
-                payment.status = Payment.TRANSACTION_STATUS.FAILED
-                payment.save()
-                return Response({"message": "Failed to initialize transaction"},  status=400)
+            payment = Payment.objects.create(user_id=user_id, email=email, amount=amount)
+            payment.save()
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
+            return Response({"message": "Wrong input"}, status=status.HTTP_400_BAD_REQUEST)
+            
+        # Initialize Paystack instance
+        paystack = Paystack(email=email, amount=amount, secret_key=secret_key)
+        
+        # Initialize payment transaction
+        response = paystack.initialize_transaction()
+        ref_id = response["data"]["reference"]
+        
+        # Get payment status
+        verify = paystack.payment_status()
+        
+        # Process payment status
+        if verify and verify.get("status") == 'success':  # Check if verify is not None
+            payment.status = Payment.TRANSACTION_STATUS.SUCCESSFUL
+            payment.save()
+            return Response({"message": "Your payment has been initiated successfully"}, status=status.HTTP_201_CREATED)
+        else:
+            payment.status = Payment.TRANSACTION_STATUS.PENDING
+            payment.save()
+            return Response({"response": response, "message": "Your payment was not initiated successfully"}, status=status.HTTP_400_BAD_REQUEST)
