@@ -1,10 +1,24 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from api.models.transaction import Payment
+from api.models.transaction import Payment, PaymentDetail
 
-class PurchaseSerializer(serializers.ModelSerializer):
-    # email = serializers.EmailField(source='user.email', read_only=True)
-
+class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
-        fields = ['email', 'amount', 'quantity']
+        fields = ['id', 'user', 'email', 'amount', 'status', 'reference', 'time']
+        read_only_fields = ['status', 'reference', 'time'] 
+class PaymentDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentDetail
+        fields = ['id', 'user', 'quantity', 'ticket', 'payment', 'time']
+        read_only_fields = ['payment', 'time']  
+
+    def validate(self, data):
+        """
+        Validate the data before saving it.
+        """
+        # Example validation: Ensure quantity is not negative
+        quantity = data.get('quantity', 0)
+        if quantity < 0:
+            raise serializers.ValidationError("Quantity cannot be negative")
+        
+        return data

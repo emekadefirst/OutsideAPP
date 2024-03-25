@@ -11,7 +11,6 @@ urlpatterns = [
     path('search', SearchEventView.as_view(), name='search'),
     path('login', LoginUser.as_view(), name='login'),
     path('pay', Checkout.as_view(), name='pay'),
-    # path('auth-url/', AuthUrl.as_view(), name='authorization-url'),
     path('ce', CreateEvent.as_view(), name='create-event'),
     path('ctt', CreateTicketType.as_view(), name='create-ticket-type'),
     path('had', HostAccountDetail.as_view(), name='host-account-detail'),
@@ -31,5 +30,5 @@ urlpatterns = [
 
 {
     "email": "emekadefirst@gmail.com",
-    "amount": 800
+    "amount": 8000
 }
