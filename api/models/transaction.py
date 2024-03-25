@@ -30,7 +30,7 @@ class PaymentDetail(models.Model):
     quantity = models.IntegerField(default=0)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, name=None)
     status = models.ForeignKey(Payment, on_delete=models.CASCADE, name=None)
-    
+    time = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.user.username}'s Payment Details"
