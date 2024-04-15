@@ -88,8 +88,6 @@ class Checkout(APIView):
             elif status_result == 'pending':
                 payment.status = Payment.TRANSACTION_STATUS.PENDING
                 return Response({"message": "Payment failed or pending"}, status=status.HTTP_102_PROCESSING)
-            else:
-                payment.status = Payment.TRANSACTION_STATUS.FAILED
-                return Response({"message": "Payment failed or pending"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({"message": "Reference ID not provided"}, status=status.HTTP_400_BAD_REQUEST)            
+            payment.status = Payment.TRANSACTION_STATUS.FAILED
+            return Response({"message": "Payment failed or pending"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Reference ID not provided"}, status=status.HTTP_400_BAD_REQUEST)            
